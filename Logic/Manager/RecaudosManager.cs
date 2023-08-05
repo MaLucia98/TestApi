@@ -31,7 +31,7 @@ namespace Logic.Manager
             var today = DateTime.UtcNow;
             var dateInitial = new DateTime(2021, 08, 01);
 
-            for (DateTime i = dateInitial; i <= today; i.AddDays(1))
+            for (DateTime i = dateInitial; i <= today; i = i.AddDays(1))
             {
                 var recaudosDay = await dataApiManager.GetRecaudoVehiculosApi(i.ToString("yyyy-MM-dd"));               
                 var conteoDay = await dataApiManager.GetConteoVehiculosApi(i.ToString("yyyy-MM-dd"));
@@ -153,8 +153,8 @@ namespace Logic.Manager
             context.SaveChanges();
         }
         public async Task<List<Recaudos>> GetRecaudos()
-        {
-           var recaudos = context.Set<Recaudos>()
+        { 
+            var recaudos = context.Set<Recaudos>()
                 .Include(x => x.Categoria)
                 .Include(x => x.Estacion)
                 .Include(x => x.Sentido)

@@ -20,6 +20,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<DbContext, ApplicationDbContext>();
 builder.Services.AddScoped<IDataApiManager, DataApiManager>();
 builder.Services.AddScoped<IRecaudosManager, RecaudosManager>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("MyCorsImplementationPolicy", builder => builder.WithOrigins("*"));
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request builder.Services.AddScoped<IRecaudosManager, RecaudosManager> ();pipeline.
@@ -30,6 +35,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("MyCorsImplementationPolicy");
 
 app.UseAuthorization();
 

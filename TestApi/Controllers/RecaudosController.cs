@@ -1,5 +1,6 @@
 using Entities.Entities;
 using Logic.Manager.Interfaces;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Models.Models;
 
@@ -7,6 +8,7 @@ namespace TestApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [EnableCors("MyCorsImplementationPolicy")]
     public class RecaudosController : ControllerBase
     {  
         private readonly ILogger<RecaudosController> _logger;

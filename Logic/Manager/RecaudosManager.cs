@@ -167,38 +167,55 @@ namespace Logic.Manager
             DateTime.TryParse(datestring, out date); 
 
             var recaudos = context.Set<Recaudos>()
-                .Where(x => x.Fecha.Month == date.Month && x.Fecha.Year == date.Month)
+                .Where(x => x.Fecha.Month == date.Month && x.Fecha.Year == date.Year)
                 .ToList();
+
             var category = context.Set<Categorias>().ToList();
             var estacion = context.Set<Estaciones>().ToList();
             var sentido = context.Set<Sentidos>().ToList();
 
             var result = new Report();   
             
-            var recaudosByEstation = recaudos.GroupBy(x => x.EstacionId).ToList();
+            var recaudosByDay = recaudos.GroupBy(x => x.Fecha).ToList();
 
             result.Total = recaudos.Select(x => x.Total).Sum();
             result.Cantidad = recaudos.Select(x => x.Cantidad).Sum();
 
-            foreach (var item in recaudosByEstation)
-            {
-                var report = new DataByStation();
-                report.EstacionId = item.Key;
-                report.Estacion = estacion.FirstOrDefault(x => x.Id == item.Key).Name;
+            foreach (var item in recaudosByDay)
+            {               
+                var data = new DataByDate();
+                data.Total = item.Select(x => x.Total).Sum();
+                data.Cantidad = item.Select(x => x.Cantidad).Sum();
+                data.Fecha = item.Key;
+                var recaudosByEstation = item.GroupBy(x => x.EstacionId).OrderBy(x => x.Key).ToList();
 
-                var recaudoByDate = item.GroupBy(x => x.Fecha).ToList();
-                foreach (var recaudo in recaudoByDate)
+                foreach (var recaudo in recaudosByEstation)
                 {
-                    var data = new DataByDate();
-                    data.Total = recaudos.Select(x => x.Total).Sum();
-                    data.Cantidad = recaudos.Select(x => x.Cantidad).Sum();
-                    data.Fecha = recaudo.Key;
-                    report.DataByDate.Add(data);
-                }
-                report.Total = recaudos.Select(x => x.Total).Sum();
-                report.Cantidad = recaudos.Select(x => x.Cantidad).Sum();
+                    var report = new DataByStation();
+                    report.EstacionId = recaudo.Key;
+                    report.Estacion = estacion.FirstOrDefault(x => x.Id == recaudo.Key).Name;
+                    report.Total = recaudo.Select(x => x.Total).Sum();
+                    report.Cantidad = recaudo.Select(x => x.Cantidad).Sum();
+                    data.DataByStation.Add(report);
+                }                
+                result.DataByDate.Add(data);
+            }         
+
+            foreach (var item in estacion)
+            {
+                var totals = new TotalByStation();
+                totals.Total = recaudos.Where(x => x.EstacionId == item.Id).Select(x => x.Total).Sum();
+                totals.Cantidad = recaudos.Where(x => x.EstacionId == item.Id).Select(x => x.Cantidad).Sum();
+                result.TotalByStation.Add(totals);
             }
             return result;
+        }
+
+       public async Task<List<Estaciones>> GetEstaciones()
+        {
+            var recaudos = context.Set<Estaciones>()
+            .ToList();
+            return recaudos;
         }
     }
 }

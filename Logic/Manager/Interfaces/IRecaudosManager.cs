@@ -12,6 +12,7 @@ namespace Logic.Manager.Interfaces
     {
         Task<bool> GetDataApi();
         Task<List<Recaudos>> GetRecaudos();
+        Task<List<Estaciones>> GetEstaciones();
         Task<Report> GetReport(string datestring);
     }
 }

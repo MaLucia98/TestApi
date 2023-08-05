@@ -37,5 +37,12 @@ namespace TestApi.Controllers
         {
             return this.recaudosManager.GetReport(date);
         }
+
+        [HttpGet("Estaciones")]
+        public Task<List<Estaciones>> GetEstaciones()
+        {
+            return this.recaudosManager.GetEstaciones();
+        }
+
     }
 }

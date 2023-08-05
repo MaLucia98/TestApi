@@ -29,7 +29,7 @@ namespace Logic.Manager
         public async Task<bool> GetDataApi()
         {
             var today = DateTime.UtcNow;
-            var dateInitial = new DateTime(2020, 08, 01);
+            var dateInitial = new DateTime(2021, 08, 01);
 
             for (DateTime i = dateInitial; i <= today; i.AddDays(1))
             {
@@ -161,7 +161,6 @@ namespace Logic.Manager
                 .ToList();
             return recaudos;
         }
-
         public async Task<Report> GetReport(string datestring)
         {
             var date = new DateTime();

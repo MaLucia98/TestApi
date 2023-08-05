@@ -22,4 +22,15 @@ namespace Models.Models
         public string categoria { get; set; }
         public int cantidad { get; set; }
     }
+
+    public class UserConection
+    {
+        public string userName { get; set; }
+        public string password { get; set; }
+}
+    public class UserResponse
+    {
+        public string token { get; set; }
+        public DateTime expiration { get; set; }
+    }
 }

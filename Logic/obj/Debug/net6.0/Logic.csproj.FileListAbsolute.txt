@@ -11,7 +11,5 @@ C:\Users\lucia\Documents\Prueba\TestApi\Logic\obj\Debug\net6.0\refint\Logic.dll
 C:\Users\lucia\Documents\Prueba\TestApi\Logic\obj\Debug\net6.0\Logic.pdb
 C:\Users\lucia\Documents\Prueba\TestApi\Logic\obj\Debug\net6.0\ref\Logic.dll
 C:\Users\lucia\Documents\Prueba\TestApi\Logic\bin\Debug\net6.0\Entities.dll
-C:\Users\lucia\Documents\Prueba\TestApi\Logic\bin\Debug\net6.0\Models.dll
 C:\Users\lucia\Documents\Prueba\TestApi\Logic\bin\Debug\net6.0\Entities.pdb
-C:\Users\lucia\Documents\Prueba\TestApi\Logic\bin\Debug\net6.0\Models.pdb
 C:\Users\lucia\Documents\Prueba\TestApi\Logic\obj\Debug\net6.0\Logic.csproj.CopyComplete

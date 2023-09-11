@@ -3,6 +3,7 @@ using Logic.Manager;
 using Logic.Manager.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,11 +19,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSql"));
 });
 builder.Services.AddScoped<DbContext, ApplicationDbContext>();
-builder.Services.AddScoped<IDataApiManager, DataApiManager>();
-builder.Services.AddScoped<IRecaudosManager, RecaudosManager>();
+builder.Services.AddScoped<IPartnerManager, PartnerManager>();
+builder.Services.AddScoped<IRegistrationsManager, RegistrationsManager>();
+builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("MyCorsImplementationPolicy", builder => builder.WithOrigins("*"));
+    options.AddPolicy("AllowAngularOrigins", builder => builder.WithOrigins(
+                            "http://localhost:4200"
+                            )
+                            .AllowAnyHeader()
+                            .AllowAnyMethod());
 });
 
 var app = builder.Build();
@@ -36,7 +43,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors("MyCorsImplementationPolicy");
+app.UseCors("AllowAngularOrigins");
 
 app.UseAuthorization();
 
